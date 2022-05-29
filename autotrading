@@ -3,8 +3,8 @@ import pyupbit
 import datetime
 import pytz #추가
 
-access = "s625ZSoC066Ui6MxFKkMuxSE1qsccqsn0GjACzNn"
-secret = "3DzZxSzbNF5DARADDYiV8OX5NN4flmD7Kt9gCEvm"
+access = "aa" #개인 억세스키
+secret = "aa" #개인 비번키
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -32,7 +32,7 @@ def get_balance(ticker):
 def get_current_price(ticker):
     """현재가 조회"""
     return pyupbit.get_orderbook(ticker=ticker)["orderbook_units"][0]["ask_price"]
-tz_seoul = pytz.timezone('Asia/Seoul') #추가
+tz_seoul = pytz.timezone('Asia/Seoul') #추가_서울시간 기준세팅
 
 # 로그인
 upbit = pyupbit.Upbit(access, secret)
@@ -44,7 +44,7 @@ while True:
         now = datetime.datetime.now()
         start_time = get_start_time("KRW-BTC")
         end_time = start_time + datetime.timedelta(days=1)
-        now = tz_seoul.localize(now) #추가
+        now = tz_seoul.localize(now) #추가_현재시간을 서울시간 기준으로 세팅
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price("KRW-BTC", 0.5)
             current_price = get_current_price("KRW-BTC")
